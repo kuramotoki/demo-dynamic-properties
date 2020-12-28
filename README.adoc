@@ -1,1 +1,9 @@
 = Demo Dynamic Properties
+
+== kubernetes configmap test
+
+* `$ minikube start`
+* `$ kubectl apply -f ./k8s/config.yml`
+* Launch `WatchTest.java`
+* modify config-map.
+** re-execute `$ kubectl apply -f ./k8s/config.yml`
