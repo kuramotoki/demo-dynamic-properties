@@ -33,4 +33,15 @@ public class PropertiesHolder {
         properties = Collections.unmodifiableMap(newProps);
         log.info("Finish updating. After:{}", properties);
     }
+
+    public void updateAll(Map<String, String> configMapData) {
+        log.info("Start updating. Before:{}", properties);
+        // clone
+        var newProps = new HashMap<>(properties);
+        // patch
+        newProps.putAll(configMapData);
+        // replace
+        properties = Collections.unmodifiableMap(newProps);
+        log.info("Finish updating. After:{}", properties);
+    }
 }

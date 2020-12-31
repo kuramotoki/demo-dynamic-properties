@@ -2,8 +2,38 @@
 
 == kubernetes configmap test
 
+=== Build image
+
+* `$ ./gradlew bootBuildImage --imageName=demo-dynamic-properties:0.0.1`
+
+=== Prepare k8s
+
 * `$ minikube start`
-* `$ kubectl apply -f ./k8s/config.yml`
-* Launch `WatchTest.java`
-* modify config-map.
-** re-execute `$ kubectl apply -f ./k8s/config.yml`
+* `$ kubectl apply -f ./k8s/config-map.yml`
+* `$ kubectl apply -f ./k8s/sa-role-binding.yml`
+* `$ minikube cache add demo-dynamic-properties:0.0.1`
+* `$ minikube cache list`
+
+=== Execute
+
+// deploy
+* `$ kubectl apply -f ./k8s/deployment.yml`
+* `$ kubectl apply -f ./k8s/service.yml`
+
+// log tail
+* `$kubectl get po`
+* `$ kubectl logs -f <pod_name>`
+
+// send request
+* `$ minikube service app-np --url`
+** move another console
+* `$ kubectl logs -f <pod_name>`
+** move another console
+// confirm
+* `$ curl <url:port>/props/update/k1/100`
+* `$ curl <url:port>/props/get/10/game.properties`
+
+// modify config-map.
+* edit `./k8s/config.yml`
+** For-example, `player.maximum-lives=100` -> `player.maximum-lives=200`
+* re-execute `$ kubectl apply -f ./k8s/config-map.yml`
